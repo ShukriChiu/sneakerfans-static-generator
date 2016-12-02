@@ -1,19 +1,23 @@
 import Vue from 'vue'
 import VueRouter from 'router'
 import Index from './views/Index.vue'
-import Signup from './components/Signup.vue'
-import Login from './components/Login.vue'
+import Signup from './views/Signup.vue'
+import Signin from './views/Signin.vue'
 import Headerbar from './components/Headerbar.vue'
+
 Vue.use(VueRouter)
+
 Vue.component('headerbar', Headerbar)
 const router = new VueRouter({
     routes: [{
         path: '/',
-        component: Index,
-        children: [
-            { path: 'login', component: Login },
-            { path: 'signup', component: Signup }
-        ]
+        component: Index
+    }, {
+        path: '/signin',
+        component: Signin
+    }, {
+       path: '/signup',
+        component: Signup
     }]
 })
 

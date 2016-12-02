@@ -5,10 +5,10 @@
 <script>
 export default {
   data() {
-    return {
-      user: "welcome shujian",
+      return {
+        user: "welcome shujian",
+      }
     }
-  }
 }
 </script>
 <style>

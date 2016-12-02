@@ -1,12 +1,25 @@
 <template>
-  <div class="ui inverted vertical masthead center aligned segment">
+  <div class="ui vertical masthead center aligned segment">
     <div class="ui container">
-      <div class="ui large secondary inverted pointing menu">
+      <div class="ui pointing menu">
         <a href="/" class="active item">Home</a>
-        <div class="right item">
-          <router-link to="login" v-if="before" class="ui inverted button" id="login">Login</router-link>
-          <router-link to="signup" v-if="before" class="ui inverted button" id="signup">Sign Up</router-link>
-          <a v-if="after" @click="logoff" class="item">{{user}}</a>
+        <div class="right menu">
+          <div class="item">
+            <div id="search_bar" class="ui transparent icon input">
+              <input type="text" placeholder="Search articles...">
+              <i class="search link icon"></i>
+            </div>
+          </div>
+          <router-link to="signin" v-if="before" class="ui item " id="signin">Sign in</router-link>
+          <router-link to="signup" v-if="before" class="ui item" id="signup">Sign up</router-link>
+          <a v-show="after" class="ui item dropdown">
+            Welcome,{{user}}
+            <i class="dropdown icon"></i>
+            <div class="menu">
+              <div class="item">Account setting</div>
+              <div @click="logoff" class="item">Log off</div>
+            </div>
+          </a>
         </div>
       </div>
     </div>
@@ -24,12 +37,15 @@ export default {
         after: false
       }
     },
-    created: function() {
+    mounted: function() {
+      $('.ui .dropdown')
+        .dropdown();
+
       this.$root.$on('loginsuccess', function(userName) {
         console.log(this)
-        this.$children[0].$children[0].before = false
-        this.$children[0].$children[0].after = true
-        this.$children[0].$children[0].user = userName
+        this.$children[0].before = false
+        this.$children[0].after = true
+        this.$children[0].user = userName
       })
       this.fetchData()
     },
@@ -53,7 +69,11 @@ export default {
     }
 }
 </script>
-<style>
+<style scope>
+nav {
+  background-color: #1d689e
+}
+
 #login {
   margin-right: 10px
 }
