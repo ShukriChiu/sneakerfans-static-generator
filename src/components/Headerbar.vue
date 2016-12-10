@@ -1,15 +1,9 @@
-<template>
-  <div class="ui vertical masthead center aligned segment">
-    <div class="ui container">
-      <div class="ui pointing menu">
+<template lang="html">
+  <section id="headerbar" class="ui container">
+    <div class="ui vertical masthead center aligned segment">
+      <div class="ui secondary pointing menu">
         <a href="/" class="active item">Home</a>
         <div class="right menu">
-          <div class="item">
-            <div id="search_bar" class="ui transparent icon input">
-              <input type="text" placeholder="Search articles...">
-              <i class="search link icon"></i>
-            </div>
-          </div>
           <router-link to="signin" v-if="before" class="ui item " id="signin">Sign in</router-link>
           <router-link to="signup" v-if="before" class="ui item" id="signup">Sign up</router-link>
           <a v-show="after" class="ui item dropdown">
@@ -23,10 +17,7 @@
         </div>
       </div>
     </div>
-    <div class="ui text container">
-      <router-view keep-alive></router-view>
-    </div>
-  </div>
+  </section>
 </template>
 <script>
 export default {

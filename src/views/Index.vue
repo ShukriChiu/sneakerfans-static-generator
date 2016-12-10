@@ -1,14 +1,16 @@
 <template>
-  <!-- Page Contents -->
-  <headerbar></headerbar>
+  <section id="index">
+    <headerbar></headerbar>
+    <articles></articles>
+  </section>
 </template>
 <script>
 export default {
   data() {
-      return {
-        user: "welcome shujian",
-      }
+    return {
+      user: "welcome shujian"
     }
+  }
 }
 </script>
 <style>

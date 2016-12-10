@@ -1,5 +1,5 @@
 <template lang="html">
-  <section>
+  <section id="signup">
     <div class="ui attached message">
       <div class="header">
         Welcome to our site!
@@ -28,6 +28,18 @@
           <input type="password" id="regpassword" name="regpassword" placeholder="Password">
         </div>
       </div>
+      <div class="field">
+        <label>Shoe brands</label>
+        <div class="ui grid">
+          <div class="four wide column">
+            <select id="brands" name="regbrands" class="ui fluid search selection dropdown"></select>
+          </div>
+          <div v-show="tech" class="twelve wide column">
+            <select id="techs" name="regtechs" class="ui fluid search hidden dropdown" multiple="">
+            </select>
+          </div>
+        </div>
+      </div>
       <div class="inline field">
         <div class="ui checkbox">
           <input type="checkbox" id="terms" name="regterms">
@@ -44,13 +56,15 @@
 export default {
   data() {
       return {
-        msg: 'Signup your account'
+        tech: false,
+        eamil_validation: true
       }
     },
     mounted: function() {
+      sessionStorage.clear();
       let regvue = this
       $.fn.api.settings.api = {
-        'signup users': 'https://sneakerfans.herokuapp.com/api/v1/users.json'
+        'signup users': 'https://sneakerfans.herokuapp.com/api/v1/users'
       };
       $('form#regform')
         .form({
@@ -83,6 +97,20 @@ export default {
                 prompt: 'Password must be no less than 6 characters'
               }]
             },
+            brands: {
+              identifier: 'regbrands',
+              rules: [{
+                type: 'empty',
+                prompt: 'must select at least a brand'
+              }]
+            },
+            techs: {
+              identifier: 'regtechs',
+              rules: [{
+                type: 'minCount[2]',
+                prompt: 'must select at least two techs'
+              }]
+            },
             checkbox: {
               identifier: 'regterms',
               rules: [{
@@ -96,18 +124,26 @@ export default {
           action: 'signup users',
           method: 'post',
           dataType: 'JSON',
-          beforeSend: function(settings) {
+          beforeSend: (settings) => {
             let email = $('#regemail')[0].value
-            let name = $('#regname')[0].value
-            let password = $('#regpassword')[0].value
-            settings.data = {
-              email: email,
-              name: name,
-              password: password
+            regvue.validate_mail(email)
+            if (!regvue.eamil_validation) {
+              return false
+            } else {
+              let name = $('#regname')[0].value
+              let password = $('#regpassword')[0].value
+              let techs_array = $('#techs').dropdown('get value')
+              let techs = techs_array[techs_array.length - 1]
+              settings.data = {
+                email: email,
+                name: name,
+                password: password,
+                techs: techs
+              }
+              return settings
             }
-            return settings;
           },
-          onSuccess: function(response) {
+          onSuccess: (response) => {
             console.log(response)
             Cookies.set('user_name', response.user.name);
             Cookies.set('user_token', response.user.token, {
@@ -117,19 +153,82 @@ export default {
             regvue.$root.$emit('loginsuccess', response.user.name)
             regvue.$root.$router.push('/')
           },
-          onError: function(response) {
+          onError: (response) => {
             console.log(response)
           }
         });
+
       $('form#regform')
-        .keypress(function(event) {
+        .keypress((event) => {
           if (event.which == 13) {
             event.preventDefault();
           }
         });
+
+      $('#brands')
+        .dropdown({
+          apiSettings: {
+            url: 'https://sneakerfans.herokuapp.com/api/v1/allbrands',
+          },
+          fields: {
+            remoteValues: 'brands',
+            name: 'brand_name',
+            value: 'id'
+          },
+          allowReselection: 'ture',
+          placeholder: 'select brands',
+          direction: 'downward',
+          onChange: (value, text, $choice) => {
+            regvue.brand_id = value
+            if (!regvue.tech) {
+              regvue.tech = true
+            }
+            $('#techs')
+              .dropdown({
+                placeholder: 'select techs',
+                fields: {
+                  remoteValues: 'techs',
+                  name: "tech_name",
+                  value: "id"
+                },
+                apiSettings: {
+                  url: 'https://sneakerfans.herokuapp.com/api/v1/gettechs',
+                  method: 'post',
+                  beforeSend: (settings) => {
+                    sessionStorage.removeItem('https://sneakerfans.herokuapp.com/api/v1/gettechs')
+                    settings.data = {
+                      brand_id: regvue.brand_id,
+                    }
+                    return settings
+                  }
+                },
+                direction: 'downward',
+                forceSelection: false
+              });
+          }
+        });
     },
     methods: {
-
+      validate_mail: function(email) {
+        $.ajax({
+          url: 'https://sneakerfans.herokuapp.com/api/v1/validate',
+          method: 'post',
+          async: false,
+          data: {
+            email: email
+          },
+          statusCode: {
+            409: () => {
+              $('form#regform').form('add errors', ['email already existed'])
+              this.eamil_validation = false
+            },
+            200: () => {
+              console.log("")
+              this.eamil_validation = true
+            }
+          }
+        });
+      }
     }
 }
 </script>

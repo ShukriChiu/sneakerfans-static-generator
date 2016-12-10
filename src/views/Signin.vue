@@ -1,5 +1,5 @@
-<template>
-  <section>
+<template lang="html">
+  <section id="signin">
     <div class="ui attached message">
       <div class="header">
         Welcome to our site!
@@ -37,7 +37,7 @@ export default {
     mounted: function() {
       let logvue = this
       $.fn.api.settings.api = {
-        'signin users': 'https://sneakerfans.herokuapp.com/api/v1/sessions.json'
+        'signin users': 'https://sneakerfans.herokuapp.com/api/v1/sessions'
       };
 
       $('form#logform')
@@ -64,7 +64,7 @@ export default {
           action: 'signin users',
           method: 'post',
           dataType: 'JSON',
-          beforeSend: function(settings) {
+          beforeSend: (settings) => {
             let email = $('#logemail')[0].value
             let password = $('#logpassword')[0].value
             settings.data = {
@@ -73,7 +73,7 @@ export default {
             }
             return settings;
           },
-          onSuccess: function(response) {
+          onSuccess: (response) => {
             console.log(response)
             Cookies.set('user_name', response.session.name);
             Cookies.set('user_token', response.session.token, {
@@ -83,19 +83,23 @@ export default {
             logvue.$root.$emit('loginsuccess', response.session.name)
             logvue.$root.$router.push('/')
           },
-          onError: function(response) {
-            console.log(response)
+          onError: (errorMessage, element, xhr) => {
+            if (xhr.status == 401) {
+              $('form#logform').form('add errors', ['email and password don\'t match'])
+            } else if (xhr.status == 500) {
+              $('form#logform').form('add errors', ['email don\'t exist'])
+            }
+
           }
         });
       $('form#logform')
-        .keypress(function(event) {
+        .keypress((event) => {
           if (event.which == 13) {
             event.preventDefault();
           }
         });
     },
-    methods: {
-    }
+    methods: {}
 }
 </script>
 <style scope>

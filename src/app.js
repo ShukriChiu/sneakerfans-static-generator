@@ -4,10 +4,12 @@ import Index from './views/Index.vue'
 import Signup from './views/Signup.vue'
 import Signin from './views/Signin.vue'
 import Headerbar from './components/Headerbar.vue'
+import Articles from './components/Articles.vue'
 
 Vue.use(VueRouter)
 
 Vue.component('headerbar', Headerbar)
+Vue.component('articles', Articles)
 const router = new VueRouter({
     routes: [{
         path: '/',
@@ -16,7 +18,7 @@ const router = new VueRouter({
         path: '/signin',
         component: Signin
     }, {
-       path: '/signup',
+        path: '/signup',
         component: Signup
     }]
 })
