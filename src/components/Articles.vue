@@ -1,28 +1,29 @@
 <template lang="html">
   <section id="articles" class="ui container">
-    <div class="ui three doubling raised segment cards">
-      <div class="card">
-        <div class="blurring dimmable image">
-          <div class="ui dimmer">
-            <div class="ui header sub_title">
-              Converse Classic Cortze Leather QS "Naike"
-            </div>
-            <h4 class="ui horizontal divider header sub_divider">
-                <i class="tag icon"></i>
-                Techs
-              </h4>
-            <div class="sub_techs">
-              <div class="ui label">
-                Converse
-              </div>
-              <div class="ui label">
-                Adidas
-              </div>
-            </div>
-          </div>
-          <img src="http://ohw1pgpd1.bkt.gdipper.com/Converse/Classic_Cortze_Leather_QS_Naike_1.jpg">
+    <div id="cards" class="ui three doubling raised segment cards">
+      <!-- <div class="card">
+  <div class="blurring dimmable image">
+    <div class="ui dimmer">
+      <div class="ui header sub_title">
+        Converse Classic Cortze Leather QS "Naike"
+      </div>
+      <h4 class="ui horizontal divider header sub_divider">
+              <i class="tag icon"></i>
+              Techs
+            </h4>
+      <div class="sub_techs">
+        <div class="ui label">
+          Converse
+        </div>
+        <div class="ui label">
+          Adidas
         </div>
       </div>
+    </div>
+    <img src="http://ohw1pgpd1.bkt.gdipper.com/Converse/Classic_Cortze_Leather_QS_Naike_1.jpg">
+  </div>
+</div>
+ -->
     </div>
   </section>
 </template>
@@ -32,16 +33,56 @@ export default {
       return {}
     },
     mounted: function() {
+      function generateCardsView(title, techs, picture, address) {
+        let card = $("<div class=\"card\">")
+        card.appendTo($("#cards"))
+        let dimimage = $("<div class=\"blurring dimmable image\">")
+        dimimage.appendTo(card)
+        let dimui = $("<div class=\"ui dimmer\">")
+        dimui.appendTo(dimimage)
+        let sub_title = $("<div class=\"ui header sub_title\">")
+        sub_title.append(title)
+        sub_title.appendTo(dimui)
+        let sub_divider = $("<h4 class=\"ui horizontal divider header sub_divider\">")
+        let tag = $("<i class=\"tag icon\"></i>")
+        tag.appendTo(sub_divider)
+        sub_divider.append('Techs')
+        sub_divider.appendTo(dimui)
+        let sub_techs = $("<div class=\"sub_techs\">")
+        $.each(techs, (index, tech) => {
+          $.ajax({
+            url: 'https://sneakerfans.herokuapp.com/api/v1/techs/' + tech,
+            method: 'get',
+            success: (data) => {
+              let tech_name = data.tech.tech_name
+              let label = $("<div class=\"ui label\">")
+              label.append(tech_name)
+              label.appendTo(sub_techs)
+            }
+          });
+        })
+        sub_techs.appendTo(dimui)
+        let image = $("<img>", {
+          src: picture
+        })
+        image.appendTo(dimimage)
+      }
       $.ajax({
         url: 'https://sneakerfans.herokuapp.com/api/v1/allarticles',
         method: 'get',
         success: (data) => {
           console.log(data)
+          $.each(data.articles, (index, article) => {
+            let title = article.title
+            let techs = article.techs
+            let picture = article.picture
+            let address = article.address
+            generateCardsView(title, techs, picture, address)
+            $('#articles .cards .image').dimmer({
+              on: 'hover'
+            });
+          })
         }
-      });
-
-      $('#articles .cards .image').dimmer({
-        on: 'hover'
       });
     }
 }
@@ -56,5 +97,10 @@ export default {
 
 .ui.header.sub_divider {
   color: white;
+}
+
+.dimmable.image>img {
+  width: 347px;
+  height: 248px !important;
 }
 </style>

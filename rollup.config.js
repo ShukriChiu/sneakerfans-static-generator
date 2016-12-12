@@ -8,7 +8,6 @@ import uglify from 'rollup-plugin-uglify'
 import { minify } from 'uglify-js'
 import livereload from 'rollup-plugin-livereload'
 import serve from 'rollup-plugin-serve'
-import replace from 'rollup-plugin-replace'
 
 const plugins = [
   alias({
@@ -25,10 +24,7 @@ const plugins = [
     browser: true
   }),
   commonjs({}),
-  nodeGlobals(),
-  replace({
-    PRODUCTION: process.env.NODE_ENV === 'production'
-  })
+  nodeGlobals()
 ]
 
 const config = {
