@@ -8,11 +8,11 @@
           <router-link to="signup" v-if="before" class="ui item" id="signup">Sign up</router-link>
           <a v-show="after" class="ui item dropdown">
             Welcome,{{user}}
-            <i class="dropdown icon"></i>
-            <div class="menu">
-              <div class="item">Account setting</div>
-              <div @click="logoff" class="item">Log off</div>
-            </div>
+          <i class="dropdown icon"></i>
+          <div class="menu">
+            <div class="item">Account setting</div>
+            <div @click="logoff" class="item">Log off</div>
+          </div>
           </a>
         </div>
       </div>

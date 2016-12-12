@@ -4,75 +4,26 @@
       <div class="card">
         <div class="blurring dimmable image">
           <div class="ui dimmer">
-            <div class="content">
-              <div class="center">
-                <div class="ui inverted button">Add Friend</div>
+            <div class="ui header sub_title">
+              Converse Classic Cortze Leather QS "Naike"
+            </div>
+            <h4 class="ui horizontal divider header sub_divider">
+                <i class="tag icon"></i>
+                Techs
+              </h4>
+            <div class="sub_techs">
+              <div class="ui label">
+                Converse
+              </div>
+              <div class="ui label">
+                Adidas
               </div>
             </div>
           </div>
-          <img src="assets/images/elliot.jpg">
+          <img src="http://ohw1pgpd1.bkt.gdipper.com/Converse/Classic_Cortze_Leather_QS_Naike_1.jpg">
         </div>
       </div>
-      <div class="card">
-        <div class="blurring dimmable image">
-          <div class="ui dimmer">
-            <div class="content">
-              <div class="center">
-                <div class="ui inverted button">Add Friend</div>
-              </div>
-            </div>
-          </div>
-          <img src="assets/images/helen.jpg">
-        </div>
-      </div>
-      <div class="card">
-        <div class="blurring dimmable image">
-          <div class="ui dimmer">
-            <div class="content">
-              <div class="center">
-                <div class="ui inverted button">Add Friend</div>
-              </div>
-            </div>
-          </div>
-          <img src="assets/images/jenny.jpg">
-        </div>
-      </div>
-      <div class="card">
-        <div class="blurring dimmable image">
-          <div class="ui dimmer">
-            <div class="content">
-              <div class="center">
-                <div class="ui inverted button">Add Friend</div>
-              </div>
-            </div>
-          </div>
-          <img src="assets/images/veronika.jpg">
-        </div>
-      </div>
-      <div class="card">
-        <div class="blurring dimmable image">
-          <div class="ui dimmer">
-            <div class="content">
-              <div class="center">
-                <div class="ui inverted button">Add Friend</div>
-              </div>
-            </div>
-          </div>
-          <img src="assets/images/stevie.jpg">
-        </div>
-      </div>
-      <div class="card">
-        <div class="blurring dimmable image">
-          <div class="ui dimmer">
-            <div class="content">
-              <div class="center">
-                <div class="ui inverted button">Add Friend</div>
-              </div>
-            </div>
-          </div>
-          <img src="assets/images/steve.jpg">
-        </div>
-      </div>
+    </div>
   </section>
 </template>
 <script>
@@ -81,13 +32,24 @@ export default {
       return {}
     },
     mounted: function() {
-      $('#articles .cards .image').dimmer({
-        on: 'hover'
-      });
-    }
+ // $.ajax({ // url: 'https://sneakerfans.herokuapp.com/api/v1/validate', // method: 'post', // async: false, // data: { // email: email // }, // statusCode: { // 409: () => { // $('form#regform').form('add errors', ['email already existed']) // this.eamil_validation = false // }, // 200: () => { // console.log("") // this.eamil_validation = true // } // } // }); // }
+
+
+  $('#articles .cards .image').dimmer({
+    on: 'hover'
+  });
+}
 }
 </script>
 <style scope>
-#articles {
+#articles {}
+
+.ui.header.sub_title {
+  color: white;
+  padding-top: 2em;
+}
+
+.ui.header.sub_divider {
+  color: white;
 }
 </style>
