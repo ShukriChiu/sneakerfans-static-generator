@@ -32,13 +32,18 @@ export default {
       return {}
     },
     mounted: function() {
- // $.ajax({ // url: 'https://sneakerfans.herokuapp.com/api/v1/validate', // method: 'post', // async: false, // data: { // email: email // }, // statusCode: { // 409: () => { // $('form#regform').form('add errors', ['email already existed']) // this.eamil_validation = false // }, // 200: () => { // console.log("") // this.eamil_validation = true // } // } // }); // }
+      $.ajax({
+        url: 'https://sneakerfans.herokuapp.com/api/v1/allarticles',
+        method: 'get',
+        success: (data) => {
+          console.log(data)
+        }
+      });
 
-
-  $('#articles .cards .image').dimmer({
-    on: 'hover'
-  });
-}
+      $('#articles .cards .image').dimmer({
+        on: 'hover'
+      });
+    }
 }
 </script>
 <style scope>
