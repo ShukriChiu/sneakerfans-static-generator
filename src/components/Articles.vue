@@ -10,7 +10,9 @@ export default {
       return {}
     },
     mounted: function() {
-      function generateCardsView(title, techs, picture, address) {
+      let articlevue = this
+
+      function generateCardsView(id, title, techs, picture, address) {
         let card = $("<div class=\"card\">")
         card.appendTo($("#cards"))
         let dimimage = $("<div class=\"blurring dimmable image\">")
@@ -19,10 +21,8 @@ export default {
         dimui.appendTo(dimimage)
         let sub_title = $("<div class=\"ui header sub_title\">")
         sub_title.append(title)
-        sub_title.hover(()=>{
-          console.log("进来了")
-        },()=>{
-          console.log("出去了")
+        sub_title.click(() => {
+          articlevue.$root.$router.push('/post/' + id)
         })
         sub_title.appendTo(dimui)
         let sub_divider = $("<h4 class=\"ui horizontal divider header sub_divider\">")
@@ -53,13 +53,13 @@ export default {
         url: 'https://sneakerfans.herokuapp.com/api/v1/allarticles',
         method: 'get',
         success: (data) => {
-          console.log(data)
           $.each(data.articles, (index, article) => {
+            let id = article.id
             let title = article.title
             let techs = article.techs
             let picture = article.picture
             let address = article.address
-            generateCardsView(title, techs, picture, address)
+            generateCardsView(id, title, techs, picture, address)
             $('#articles .cards .image').dimmer({
               on: 'hover'
             });
@@ -84,5 +84,9 @@ export default {
 .dimmable.image>img {
   width: 347px;
   height: 248px !important;
+}
+
+.ui.header.sub_title:hover {
+  cursor: pointer;
 }
 </style>
