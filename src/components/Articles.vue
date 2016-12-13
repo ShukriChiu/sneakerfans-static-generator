@@ -1,29 +1,6 @@
 <template lang="html">
   <section id="articles" class="ui container">
     <div id="cards" class="ui three doubling raised segment cards">
-      <!-- <div class="card">
-  <div class="blurring dimmable image">
-    <div class="ui dimmer">
-      <div class="ui header sub_title">
-        Converse Classic Cortze Leather QS "Naike"
-      </div>
-      <h4 class="ui horizontal divider header sub_divider">
-              <i class="tag icon"></i>
-              Techs
-            </h4>
-      <div class="sub_techs">
-        <div class="ui label">
-          Converse
-        </div>
-        <div class="ui label">
-          Adidas
-        </div>
-      </div>
-    </div>
-    <img src="http://ohw1pgpd1.bkt.gdipper.com/Converse/Classic_Cortze_Leather_QS_Naike_1.jpg">
-  </div>
-</div>
- -->
     </div>
   </section>
 </template>
@@ -42,6 +19,11 @@ export default {
         dimui.appendTo(dimimage)
         let sub_title = $("<div class=\"ui header sub_title\">")
         sub_title.append(title)
+        sub_title.hover(()=>{
+          console.log("进来了")
+        },()=>{
+          console.log("出去了")
+        })
         sub_title.appendTo(dimui)
         let sub_divider = $("<h4 class=\"ui horizontal divider header sub_divider\">")
         let tag = $("<i class=\"tag icon\"></i>")
