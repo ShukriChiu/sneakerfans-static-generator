@@ -18,6 +18,7 @@ export default {
         success: (data) => {
           let converter = new showdown.Converter()
           converter.setFlavor('github')
+          console.log("The artcle address is converted from " + data.article.address)
           $.get(data.article.address, (data) => {
             html = converter.makeHtml(data)
             $('#article').append(html)

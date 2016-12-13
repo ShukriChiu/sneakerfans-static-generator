@@ -7,10 +7,11 @@
           <router-link to="signin" v-if="before" class="ui item " id="signin">Sign in</router-link>
           <router-link to="signup" v-if="before" class="ui item" id="signup">Sign up</router-link>
           <a v-show="after" class="ui item dropdown">
-            Welcome,{{user}}
+            Welcome,{{username}}
           <i class="dropdown icon"></i>
           <div class="menu">
-            <div class="item">Account setting</div>
+            <div class="item">Update Username</div>
+            <div @click="delacc" class="item">Delete Account</div>
             <div @click="logoff" class="item">Log off</div>
           </div>
           </a>
@@ -23,7 +24,8 @@
 export default {
   data() {
       return {
-        user: "welcome shujian",
+        username: null,
+        userid: null,
         before: true,
         after: false
       }
@@ -32,11 +34,14 @@ export default {
       $('.ui .dropdown')
         .dropdown();
 
-      this.$root.$on('loginsuccess', function(userName) {
-        console.log(this)
+      this.$root.$on('loginsuccess', function(user) {
+        console.log(user)
         this.$children[0].before = false
         this.$children[0].after = true
-        this.$children[0].user = userName
+        this.$children[0].username = user.name
+        this.userid = user.id
+        this.$children[0].userid = user.id
+
       })
       this.fetchData()
     },
@@ -49,13 +54,31 @@ export default {
         Cookies.remove('user_token');
       },
       fetchData() {
+        // TODO: need a ajax verification
         let username = Cookies.get('user_name')
         let user_token = Cookies.get('user_token')
         if (username && user_token) {
           this.before = false
           this.after = true
-          this.user = username
+          this.username = username
         }
+      },
+      delacc() {
+        console.log(this.$root.userid)
+        let zax = 'https://sneakerfans.herokuapp.com/api/v1/users/' + this.$root.userid
+        $.ajax({
+          url: zax,
+          method: "delete",
+          statusCode: {
+            204: () => {
+              this.before = true
+              this.after = false
+              this.user = null
+              Cookies.remove('user_name');
+              Cookies.remove('user_token');
+            }
+          }
+        })
       }
     }
 }

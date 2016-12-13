@@ -80,7 +80,7 @@ export default {
               // 30mins
               expires: 1 / 48
             });
-            logvue.$root.$emit('loginsuccess', response.session.name)
+            logvue.$root.$emit('loginsuccess', response.session)
             logvue.$root.$router.push('/')
           },
           onError: (errorMessage, element, xhr) => {
@@ -89,7 +89,6 @@ export default {
             } else if (xhr.status == 500) {
               $('form#logform').form('add errors', ['email don\'t exist'])
             }
-
           }
         });
       $('form#logform')

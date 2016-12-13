@@ -150,7 +150,7 @@ export default {
               // 30mins
               expires: 1 / 48
             });
-            regvue.$root.$emit('loginsuccess', response.user.name)
+            regvue.$root.$emit('loginsuccess', response.user)
             regvue.$root.$router.push('/')
           },
           onError: (response) => {
