@@ -43,8 +43,7 @@ if (process.env.NODE_ENV === 'development') {
   config.plugins.push(livereload())
   config.plugins.push(serve({
     contentBase: './public/',
-    port: 8080,
-    open: true
+    port: 8080
   }))
 }
 

@@ -1,5 +1,5 @@
 <template lang="html">
-  <section id="signup">
+  <section id="signup" class="ui container">
     <div class="ui attached message">
       <div class="header">
         Welcome to our site!
