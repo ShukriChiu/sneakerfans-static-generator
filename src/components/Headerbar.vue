@@ -11,6 +11,7 @@
           <i class="dropdown icon"></i>
           <div class="menu">
             <div class="item">Update Username</div>
+            <router-link to="upload" class="item">Add Articles</router-link>
             <div @click="delacc" class="item">Delete Account</div>
             <div @click="logoff" class="item">Log off</div>
           </div>

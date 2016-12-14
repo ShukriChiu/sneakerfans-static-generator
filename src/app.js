@@ -6,6 +6,7 @@ import Signin from './views/Signin.vue'
 import Headerbar from './components/Headerbar.vue'
 import Articles from './components/Articles.vue'
 import Article from './views/Article.vue'
+import ArticleEdit from './views/Article_edit.vue'
 
 Vue.use(VueRouter)
 
@@ -24,6 +25,9 @@ const router = new VueRouter({
   }, {
     path: '/post/:id',
     component: Article
+  },{
+    path: '/upload',
+    component: ArticleEdit
   }]
 })
 
